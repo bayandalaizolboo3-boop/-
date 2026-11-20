@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon Experience</title>
+
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    body{
+        min-height: 100vh;
+        background:#080812;
+        color:white;
+        font-family:Arial, sans-serif;
+        overflow:hidden;
+    }
+    /* Background */
+    .background{
+        position: fixed;
+        inset: 0;
+        background:
+           radial-gradient(circle at 20% 30%,
+        #6415a5 0%, transparent 35%),
+           radial-gradient(circle at 80% 70%,
+        #123c9c 0%, transparent 40%),
+           #080812;
+          animation: colorMove 8s infinite alternate;
+          z-index: -2; 
+    }
+
+    @keyframes colorMove{
+        from{filter: hue-rotate(0deg);}
+        to{filter:hue-rotate(60deg);}
+    }
+
+    /* Mouse light */
+    .light{
+        position: fixed;
+        width: 350px;
+        height: 350px;
+        background: radial-gradient(circle,
+       #a855f755, transparent 70%);
+        border-radius: 50%;
+        pointer-events: none;
+        transform: translate(-50%, -50%);
+        z-index: -1;
+    }
+
+    /* Navigation */
+    nav{
+        display: flex;
+        justify-content: space-between;
+        padding: 30px 8%;
+        align-items: center;
+    }
+
+    .logo{
+        font-size: 25px;
+        font-weight: bold;
+        color:#c084fc;
+        letter-spacing: 3px;
+    }
+
+    nav a{
+        color:#ccc;
+        text-decoration: none;
+        margin-left: 25px;
+        transition: .3s;
+    }
+
+    nav a:hover{
+        color:#c084fc;
+    }
+
+    /*Main content */
+    .container{
+        height: 80vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    .content{
+        animation: appear 1.5s ease;
+    }
+
+    @keyframes appear{
+        from{
+            opacity: 0;
+            transform: translateY(50px);
+        }
+        to{
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    h1{
+        font-size: clamp(40px, 8vw, 85px);
+        margin-bottom: 20px;
+        background: linear-gradient(90deg,
+       #c084fc, #60a5fa, #f0abfc);
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+    }
+
+    p{
+        font-size: 18px;
+        color: #aaa;
+        margin-bottom: 35px;
+    }
+
+    #typing{
+        color:#c084fc;
+        font-weight: bold;
+    }
+
+    /*Button */
+    button{
+        padding: 15px 35px;
+        background: transparent;
+        border: 2px solid #a855f7;
+        border-radius: 30px;
+        color:white;
+        font-size: 16px;
+        cursor: pointer;
+        transition: .4s;
+        box-shadow: 0 0 15px #a855f755;
+    }
+
+    button:hover{
+        background: #a855f7;
+        box-shadow: 0 0 35px #a855f7;
+        transform: scale(1.08);
+
+    }
+
+    /*Floating circles */
+    .circle{
+        position: fixed;
+        border: 1px solid #ffffff15;
+        border-radius: 50%;
+        animation: float 6s infinite ease-in-out;
+        pointer-events: none;
+    }
+
+    .c1{
+        width: 150px;
+        height: 150px;
+        top: 20%;
+        left: 10%;
+    }
+
+    .c2{
+        width: 100px;
+        height: 100px;
+        bottom: 15%;
+        right: 12%;
+        animation-delay: 2s;
+    }
+    @keyframes float{
+        50%{
+            transform: translateY(-30px)
+            rotate(180deg);
+        }
+    }
+    footer{
+        position: fixed;
+        bottom: 20px;
+        width: 100%;
+        text-align: center;
+        color: #555;
+        font-size: 12px;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="background"></div>
+<div class="light" id="light"></div>
+
+<div class="circle c1"></div>
+<div class="circle c2"></div>
+
+<nav>
+    <div class="logo">NEXUS.</div>
+    <div>
+        <a href="#">Home</a>
+        <a href="#about">About</a>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="content">
+        <h1>BEYOND LIMITS</h1>
+
+        <p>
+            Explore the world of
+            <span id="typing"></span>
+        </p>
+
+        <button onclick="showMessage()">
+            Explore More ->
+        </button>
+    </div>
+</div>
+
+<footer>
+    2026 NEXUS EXPERIENCE | CREATED WITH HTML,CSS & JS
+</footer>
+
+<script>
+    //Mouse-following light
+    const light =
+    document.getElementById("light");
+
+    document.addEventListener("mousemove", (e) => {
+        light.style.left=e.clientX + "px";
+        light.style.top=e.clientY + "px";
+    });
+    
+    //typing animation
+    const words = [
+        "Creativity",
+        "Technology",
+        "Imagination",
+        "Innovation"
+    ];
+
+    let wordIndex = 0;
+    let charIndex = 0;
+    let deleting = false;
+
+    function typeEffect(){
+        const current = words[wordIndex];
+        const typing =
+        document.getElementById("typing");
+
+        typing.textContent=currentWord.substring(0, charIndex);
+
+       if(!isDeleting && charIndex ){
+        charIndex++;
+
+        if(charIndex > currentWord.lenght){
+            isDeleting = true;
+            setTimeout(typeEffect,1200);
+            return;
+        }
+       }else{
+        charIndex--;
+        
+        if(charIndex < 0){
+            charIndex = 0;
+            isDeleting = false;
+            wordIndex = (wordIndex + 1)% words.length;
+        }
+       }
+
+       setTimeout(typeEffect,isDeleting ? 60 : 120);
+    }
+
+    typeEffect();
+</script>
+
+</body>
+</html>
